@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Download, Eye } from 'lucide-react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import  { useState } from 'react';
+import { Download } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useI18n } from '../context/I18nContext';
 
 const SavePanel = () => {
   const { translations, fileStructure } = useI18n();
   const [saveStatus, setSaveStatus] = useState('');
 
-  const deepMerge = (target, source) => {
+  const deepMerge = (target:any, source:any) => {
     const output = { ...target };
     
     if (isObject(target) && isObject(source)) {
@@ -27,14 +27,14 @@ const SavePanel = () => {
     return output;
   };
 
-  const isObject = (item) => {
+  const isObject = (item:any) => {
     return (item && typeof item === 'object' && !Array.isArray(item));
   };
 
-  const createNestedObject = (path, value) => {
+  const createNestedObject = (path:any, value:any) => {
     const parts = path.split('.');
     const result = {};
-    let current = result;
+    let current:any = result;
 
     for (let i = 0; i < parts.length - 1; i++) {
       current[parts[i]] = {};
@@ -44,11 +44,11 @@ const SavePanel = () => {
     return result;
   };
 
-  const handleExport = (language) => {
+  const handleExport = (language:any) => {
     try {
       // Get original content from file structure
-      let originalContent = null;
-      Object.entries(fileStructure[language] || {}).forEach(([filename, file]) => {
+      let originalContent:any = null;
+      Object.entries(fileStructure[language] || {}).forEach(([filename, file]:any) => {
         if (filename === 'translation.json' && file.content) {
           originalContent = JSON.parse(JSON.stringify(file.content));
         }
@@ -67,10 +67,10 @@ const SavePanel = () => {
 
       // Get all changes from translations object
       const changes = {};
-      const languageTranslations = translations[language]?.translation || {};
+      const languageTranslations = translations[language]?.translation && translations[language]?.translation || {};
 
       // Convert flat paths to nested structure
-      Object.entries(languageTranslations).forEach(([key, value]) => {
+      Object.entries(languageTranslations).forEach(([key, value]:any) => {
         if (typeof value === 'string') {
           const nestedObj = createNestedObject(key, value);
           deepMerge(changes, nestedObj);
@@ -115,27 +115,27 @@ const SavePanel = () => {
     }
   };
 
-  const previewTranslations = (language) => {
-    // Get original content
-    let content = null;
-    Object.entries(fileStructure[language] || {}).forEach(([filename, file]) => {
-      if (filename === 'translation.json' && file.content) {
-        content = JSON.parse(JSON.stringify(file.content));
-      }
-    });
+  // const previewTranslations = (language) => {
+  //   // Get original content
+  //   let content = null;
+  //   Object.entries(fileStructure[language] || {}).forEach(([filename, file]) => {
+  //     if (filename === 'translation.json' && file.content) {
+  //       content = JSON.parse(JSON.stringify(file.content));
+  //     }
+  //   });
 
-    if (!content) {
-      content = {
-        common: {},
-        psp: {},
-        succession_profile: {},
-        okr: {},
-        appraisal: {}
-      };
-    }
+  //   if (!content) {
+  //     content = {
+  //       common: {},
+  //       psp: {},
+  //       succession_profile: {},
+  //       okr: {},
+  //       appraisal: {}
+  //     };
+  //   }
 
-    return content;
-  };
+  //   return content;
+  // };
 
   return (
     <div className="border rounded-lg p-4 space-y-4">

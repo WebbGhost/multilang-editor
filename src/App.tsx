@@ -6,7 +6,6 @@ import {
   Trash2, 
   LayoutDashboard, 
   Files, 
-  Settings,
   ChevronDown,
   Bell,
   User

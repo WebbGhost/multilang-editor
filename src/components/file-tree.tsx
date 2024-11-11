@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // components/JsonTreeEditor/TreeView.tsx
 import React from 'react';
 import { ChevronRight, ChevronDown, Plus, Trash2 } from 'lucide-react';
@@ -70,6 +71,7 @@ export const TreeView: React.FC<TreeViewProps> = ({
 
   // Function to check if key exists in current file
   const checkKeyInCurrentFile = (keyToCheck: string, currentPath: string[]): boolean => {
+    console.log(currentPath)
     if (!currentFile) return false;
 
     const searchForKey = (obj: any): boolean => {

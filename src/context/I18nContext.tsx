@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // context/I18nContext.js
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import  { createContext, useContext, useState, useCallback, } from 'react';
 
 const I18nContext = createContext(null);
 
-export const I18nProvider = ({ children }) => {
+export const I18nProvider = ({ children }:{
+  children:any
+}) => {
   // File structure and selection state
   const [fileStructure, setFileStructure] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
@@ -22,15 +25,15 @@ export const I18nProvider = ({ children }) => {
   const [error, setError] = useState('');
 
   // File processing functions
-  const processJsonFile = useCallback(async (file) => {
+  const processJsonFile = useCallback(async (file:any) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       
-      reader.onload = (e) => {
+      reader.onload = (e:any) => {
         try {
           const content = JSON.parse(e.target.result);
           const pathParts = file.webkitRelativePath.split('/');
-          const localeIndex = pathParts.findIndex(part => part === 'locales');
+          const localeIndex = pathParts.findIndex((part:any) => part === 'locales');
           
           if (localeIndex !== -1 && pathParts[localeIndex + 1]) {
             const lang = pathParts[localeIndex + 1];
@@ -53,15 +56,15 @@ export const I18nProvider = ({ children }) => {
     });
   }, []);
 
-  const readFiles = useCallback(async (files) => {
+  const readFiles = useCallback(async (files:any) => {
     try {
       setError('');
-      const filePromises = [];
+      const filePromises:any = [];
       const foundLanguages = new Set();
       const structure = {};
       const translationData = {};
 
-      Array.from(files).forEach(file => {
+      Array.from(files).forEach((file:any) => {
         if (file.name.endsWith('.json')) {
           filePromises.push(processJsonFile(file));
         }
@@ -73,8 +76,8 @@ export const I18nProvider = ({ children }) => {
         foundLanguages.add(lang);
         
         // Build file structure
-        let current = structure;
-        path.split('/').forEach((part, index, arr) => {
+        let current:any = structure;
+        path.split('/').forEach((part:any, index:any, arr:any) => {
           if (index === arr.length - 1) {
             current[part] = {
               type: 'file',
